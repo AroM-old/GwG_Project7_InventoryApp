@@ -111,8 +111,8 @@ public class InventoryActivity extends AppCompatActivity {
                 // at the current row the cursor is on.
                 int currentId = cursor.getInt(idColumnIndex);
                 String currentBookName = cursor.getString(bookNameIndex);
-                String currentBookPrice = cursor.getString(bookPriceIndex);
-                String currentBookQuantity = cursor.getString(bookQuantityIndex);
+                int currentBookPrice = cursor.getInt(bookPriceIndex);
+                int currentBookQuantity = cursor.getInt(bookQuantityIndex);
                 String currentSupplierName = cursor.getString(supplierNameIndex);
                 String currentSupplierPhone = cursor.getString(supplierPhoneIndex);
                 // Display the values from each column of the current row in the cursor in the TextView

@@ -9,4 +9,6 @@
     <string name="supplier_phone_number_hint">Phone Number</string>
     <string name="save_action">Save</string>
     <string name="delete_action">delete</string>
+    <string name="error_saving">Error saving book information</string>
+    <string name="info_saved">Book Information Saved row:</string>
 </resources>
