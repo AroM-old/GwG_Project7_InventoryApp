@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Books Inventory</string>
+    <string name="book_heading">Book</string>
+    <string name="book_name_hint">Name</string>
+    <string name="book_price_hint">Price</string>
+    <string name="book_quantity_hint">Quantity</string>
+    <string name="supplier_heading">Supplier</string>
+    <string name="supplier_name_hint">Name</string>
+    <string name="supplier_phone_number_hint">Phone Number</string>
+    <string name="save_action">Save</string>
+    <string name="delete_action">delete</string>
+</resources>
