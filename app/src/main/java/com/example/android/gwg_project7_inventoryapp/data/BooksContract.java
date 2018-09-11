@@ -51,13 +51,13 @@ public final class BooksContract {
         /**
          * Book supplier name.
          * <p>
-         * Type: TEXT
+         * Type: INTEGER
          */
         public static final String COLUMN_SUPPLIER_NAME = "supplier_name";
         /**
          * Book supplier phone number.
          * <p>
-         * Type: INTEGER
+         * Type: TEXT
          */
         public static final String COLUMN_SUPPLIER_PHONE_NUMBER = "supplier_phone_number";
 

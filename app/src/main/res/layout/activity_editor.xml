@@ -39,14 +39,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/book_price_hint"
-            android:inputType="textPersonName" />
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/book_quantity_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/book_quantity_hint"
-            android:inputType="textPersonName" />
+            android:inputType="number" />
     </LinearLayout>
 
     <LinearLayout

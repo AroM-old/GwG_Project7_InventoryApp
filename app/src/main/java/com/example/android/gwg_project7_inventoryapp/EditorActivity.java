@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import com.example.android.gwg_project7_inventoryapp.data.BooksDbHelper;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.example.android.gwg_project7_inventoryapp.data.BooksContract.BooksEntry;
 
 public class EditorActivity extends AppCompatActivity {
@@ -21,39 +24,46 @@ public class EditorActivity extends AppCompatActivity {
     /**
      * EditText field to enter the book's name
      */
-    private EditText mBookNameEditText;
+    @BindView(R.id.book_name_edit_text)
+    EditText mBookNameEditText;
 
     /**
      * EditText field to enter the book's price
      */
-    private EditText mBookPriceEditText;
+    @BindView(R.id.book_price_edit_text)
+    EditText mBookPriceEditText;
 
     /**
      * EditText field to enter the book's quantity
      */
-    private EditText mBookQuantityEditText;
+    @BindView(R.id.book_quantity_edit_text)
+    EditText mBookQuantityEditText;
 
     /**
      * EditText field to enter the supplier's name
      */
-    private EditText mSupplierNameEditText;
+    @BindView(R.id.supplier_name_edit_text)
+    EditText mSupplierNameEditText;
 
     /**
      * EditText field to enter the supplier's phone number
      */
-    private EditText mSuppplierPhoneNumberEditText;
+    @BindView(R.id.supplier_phone_edit_text)
+    EditText mSuppplierPhoneNumberEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+
         // Find all relevant views that we will need to read user input from
-        mBookNameEditText = findViewById(R.id.book_name_edit_text);
+        ButterKnife.bind(this);
+        /*mBookNameEditText = findViewById(R.id.book_name_edit_text);
         mBookPriceEditText = findViewById(R.id.book_price_edit_text);
         mBookQuantityEditText = findViewById(R.id.book_quantity_edit_text);
         mSupplierNameEditText = findViewById(R.id.supplier_name_edit_text);
-        mSuppplierPhoneNumberEditText = findViewById(R.id.supplier_phone_edit_text);
+        mSuppplierPhoneNumberEditText = findViewById(R.id.supplier_phone_edit_text);*/
     }
 
     /**
@@ -64,7 +74,9 @@ public class EditorActivity extends AppCompatActivity {
         // Use trim to eliminate leading or trailing white space
         String bookNameString = mBookNameEditText.getText().toString().trim();
         String bookPriceString = mBookPriceEditText.getText().toString().trim();
+        int bookPriceInt = Integer.parseInt(bookPriceString);
         String bookQuantityString = mBookQuantityEditText.getText().toString().trim();
+        int bookQuantityInt = Integer.parseInt(bookQuantityString);
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSuppplierPhoneNumberEditText.getText().toString().trim();
 
@@ -78,8 +90,8 @@ public class EditorActivity extends AppCompatActivity {
         // and book attributes from the editor are the values.
         ContentValues contentValues = new ContentValues();
         contentValues.put(BooksEntry.COLUMN_PRODUCT_NAME, bookNameString);
-        contentValues.put(BooksEntry.COLUMN_PRODUCT_PRICE, bookPriceString);
-        contentValues.put(BooksEntry.COLUMN_PRODUCT_QUANTITY, bookQuantityString);
+        contentValues.put(BooksEntry.COLUMN_PRODUCT_PRICE, bookPriceInt);
+        contentValues.put(BooksEntry.COLUMN_PRODUCT_QUANTITY, bookQuantityInt);
         contentValues.put(BooksEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
         contentValues.put(BooksEntry.COLUMN_SUPPLIER_PHONE_NUMBER, supplierPhoneString);
 
@@ -88,10 +100,10 @@ public class EditorActivity extends AppCompatActivity {
         // Show a toast message depending on whether or not the insertion was successful
         if (newRowId == -1) {
             // If the row ID is -1, then there was an error with insertion.
-            Toast.makeText(this, "Error saving book information", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.error_saving, Toast.LENGTH_LONG).show();
         } else {
             // Otherwise, the insertion was successful and we can display a toast with the row ID.
-            Toast.makeText(this, "Book Information Saved row: " + newRowId, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.info_saved) + newRowId, Toast.LENGTH_LONG).show();
         }
     }
 
