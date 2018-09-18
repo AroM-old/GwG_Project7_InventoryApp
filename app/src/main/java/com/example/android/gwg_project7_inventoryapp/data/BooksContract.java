@@ -1,12 +1,16 @@
 package com.example.android.gwg_project7_inventoryapp.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /* API contract for the books apps */
 public final class BooksContract {
 
-    private static final String LOG_TAG = BooksContract.class.getSimpleName();
+    public static final String CONTENT_AUTHORITY = "com.example.android.gwg_project7_inventoryapp";
 
+    private static final String LOG_TAG = BooksContract.class.getSimpleName();
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String PATH_BOOKS = "books";
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
     private BooksContract() {
@@ -17,6 +21,8 @@ public final class BooksContract {
      * Each entry in the table represents a single book.
      */
     public static final class BooksEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_BOOKS);
 
         /**
          * Name of database table for books

@@ -2,7 +2,6 @@ package com.example.android.gwg_project7_inventoryapp;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -55,7 +54,7 @@ public class InventoryActivity extends AppCompatActivity {
      */
     private void displayDatabaseInfo() {
         // Create and/or open a database to read from it
-        SQLiteDatabase db = booksDbHelper.getReadableDatabase();
+        // SQLiteDatabase db = booksDbHelper.getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
@@ -68,7 +67,7 @@ public class InventoryActivity extends AppCompatActivity {
                 BooksEntry.COLUMN_SUPPLIER_PHONE_NUMBER};
 
         // Perform a query on the books table
-        Cursor cursor = db.query(
+        /** Cursor cursor = db.query(
                 BooksEntry.TABLE_NAME, // The table to query
                 projection,             // The columns to return
                 null,           // The columns for the WHERE clause
@@ -77,6 +76,10 @@ public class InventoryActivity extends AppCompatActivity {
                 null,           // Don't filter by row groups
                 null,            // The sort order
                 null);          // limits to display
+         */
+
+        Cursor cursor = getContentResolver().query(BooksEntry.CONTENT_URI, projection, null, null, null);
+
 
         TextView displayView = findViewById(R.id.book_text_view);
 
