@@ -1,12 +1,16 @@
 package com.example.android.gwg_project7_inventoryapp;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.example.android.gwg_project7_inventoryapp.data.BooksDbHelper;
 
@@ -80,8 +84,14 @@ public class InventoryActivity extends AppCompatActivity {
 
         Cursor cursor = getContentResolver().query(BooksEntry.CONTENT_URI, projection, null, null, null);
 
+        // Find ListView to populate
+        ListView lvItems = findViewById(R.id.book_list_view);
+        // Setup cursor adapter using cursor from last step
+        BookCursorAdapter bookAdapter = new BookCursorAdapter(this, cursor);
+        // Attach cursor adapter to the ListView
+        lvItems.setAdapter(bookAdapter);
 
-        TextView displayView = findViewById(R.id.book_text_view);
+        // TextView displayView = findViewById(R.id.book_list_view);
 
         // Create a header in the Text View that looks like this:
         //
@@ -131,5 +141,50 @@ public class InventoryActivity extends AppCompatActivity {
             // resources and makes it invalid.
             cursor.close();
         }
+    }
+
+    /**
+     * Helper method to insert hardcoded book data into the database. For debugging purposes only.
+     */
+
+    private void insertBook() {
+        // Create a ContentValues object where column names are the keys,
+        // and Lord of ring book attributes are the values.
+        ContentValues values = new ContentValues();
+        values.put(BooksEntry.COLUMN_PRODUCT_NAME, "The Lord of The Ring");
+        values.put(BooksEntry.COLUMN_PRODUCT_PRICE, "58.99");
+        values.put(BooksEntry.COLUMN_PRODUCT_QUANTITY, "1");
+        values.put(BooksEntry.COLUMN_SUPPLIER_NAME, "Wizard Editorial");
+        values.put(BooksEntry.COLUMN_SUPPLIER_PHONE_NUMBER, "254-200-5555");
+
+        // Insert a new row for Lord of Ring into the provider using the ContentResolver.
+        // Use the {@link BookEntry#CONTENT_URI} to indicate that we want to insert
+        // into the books database table.
+        // Receive the new content URI that will allow us to access Lord of ring data in the future.
+        Uri newUri = getContentResolver().insert(BooksEntry.CONTENT_URI, values);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu_inventory.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_inventory, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // User clicked on a menu option in the app bar overflow menu
+        switch (item.getItemId()) {
+            // Respond to a click on the "Insert dummy data" menu option
+            case R.id.insert_dummy_data:
+                insertBook();
+                displayDatabaseInfo();
+                return true;
+            // Respond to a click on the "Delete all entries" menu option
+            case R.id.delete_all_entries:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

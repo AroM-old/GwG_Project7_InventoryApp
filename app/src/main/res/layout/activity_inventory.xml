@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".EditorActivity">
 
-    <TextView
-        android:id="@+id/book_text_view"
+    <ListView
+        android:id="@+id/book_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp" />

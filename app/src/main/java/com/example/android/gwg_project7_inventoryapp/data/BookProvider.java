@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import static com.example.android.gwg_project7_inventoryapp.data.BooksContract.BooksEntry;
 import static com.example.android.gwg_project7_inventoryapp.data.BooksContract.CONTENT_AUTHORITY;
@@ -63,22 +64,173 @@ public class BookProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case BOOKS:
+                return BooksEntry.CONTENT_LIST_TYPE;
+            case BOOKS_ID:
+                return BooksEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown URI " + uri + "with match" + match);
+        }
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case BOOKS:
+                return insertBook(uri, values);
+            default:
+                throw new IllegalArgumentException("Insertion is not supported for " + uri);
+        }
     }
+
+    /**
+     * Insert a pet into the database with the given content values. Return the new content URI
+     * for that specific row in the database.
+     */
+    private Uri insertBook(Uri uri, ContentValues values) {
+
+        //Perform sanity check
+        String productName = values.getAsString(BooksEntry.COLUMN_PRODUCT_NAME);
+        if (productName == null) {
+            throw new IllegalArgumentException("Book name or title requiered");
+        }
+
+        Integer productPrice = values.getAsInteger(BooksEntry.COLUMN_PRODUCT_PRICE);
+        if (productPrice != null && productPrice < 0) {
+            throw new IllegalArgumentException("Price required");
+        }
+
+        Integer productQuantity = values.getAsInteger(BooksEntry.COLUMN_PRODUCT_QUANTITY);
+        if (productQuantity != 0 && productQuantity < 0) {
+            throw new IllegalArgumentException("Price required");
+        }
+
+        String supplierName = values.getAsString(BooksEntry.COLUMN_SUPPLIER_NAME);
+        if (supplierName == null) {
+            throw new IllegalArgumentException("Supplier name requiered");
+        }
+
+        String supplierNumber = values.getAsString(BooksEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+        if (supplierNumber == null) {
+            throw new IllegalArgumentException("Phone number required");
+        }
+
+        // Get writeable database
+        SQLiteDatabase database = booksDbHelper.getWritableDatabase();
+
+        // Insert the new pet with the given values
+        long id = database.insert(BooksEntry.TABLE_NAME, null, values);
+
+        // If the ID is -1, then the insertion failed. Log an error and return null.
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+        }
+
+        // Once we know the ID of the new row in the table,
+        // return the new URI with the ID appended to the end of it
+        return ContentUris.withAppendedId(uri, id);
+    }
+
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        // Get writeable database
+        SQLiteDatabase database = booksDbHelper.getWritableDatabase();
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            // Delete all rows that match the selection and selection args
+            case BOOKS:
+                return database.delete(BooksEntry.TABLE_NAME, selection, selectionArgs);
+            // Delete a single row given by the ID in the URI
+            case BOOKS_ID:
+                selection = BooksEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return database.delete(BooksEntry.TABLE_NAME, selection, selectionArgs);
+
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        final int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            case BOOKS:
+                return updateBook(uri, values, selection, selectionArgs);
+            // For the BOOK_ID code, extract out the ID from the URI,
+            // so we know which row to update. Selection will be "_id=?" and selection
+            // arguments will be a String array containing the actual ID.
+            case BOOKS_ID:
+                selection = BooksEntry._ID + "=?";
+                selectionArgs = new String[]{
+                        String.valueOf(ContentUris.parseId(uri))
+                };
+                return updateBook(uri, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
+    }
+
+    /**
+     * Update books in the database with the given content values. Apply the changes to the rows
+     * specified in the selection and selection arguments (which could be 0 or 1 or more books).
+     * Return the number of rows that were successfully updated.
+     */
+    private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        // If the {@link BookEntry#COLUMN_PRODUCT_NAME} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(BooksEntry.COLUMN_PRODUCT_NAME)) {
+            String productName = values.getAsString(BooksEntry.COLUMN_PRODUCT_NAME);
+            if (productName == null) {
+                throw new IllegalArgumentException("Book name or title requiered");
+            }
+        }
+        // If the {@link BookEntry#COLUMN_PRODUCT_PRICE} key is present,
+        // check that the price value is not null.
+        if (values.containsKey(BooksEntry.COLUMN_PRODUCT_PRICE)) {
+            Integer productPrice = values.getAsInteger(BooksEntry.COLUMN_PRODUCT_PRICE);
+            if (productPrice != null && productPrice < 0) {
+                throw new IllegalArgumentException("Price required");
+            }
+        }
+        // If the {@link BookEntry#COLUMN_PRODUCT_QUANTITY} key is present,
+        // check that the quantity value is not null.
+        if (values.containsKey(BooksEntry.COLUMN_PRODUCT_QUANTITY)) {
+            Integer productQuantity = values.getAsInteger(BooksEntry.COLUMN_PRODUCT_QUANTITY);
+            if (productQuantity != 0 && productQuantity < 0) {
+                throw new IllegalArgumentException("Price required");
+            }
+        }
+        // If the {@link BookEntry#COLUMN_SUPPLIER_NAME} key is present,
+        // check that the supplier name value is not null.
+        if (values.containsKey(BooksEntry.COLUMN_SUPPLIER_NAME)) {
+            String supplierName = values.getAsString(BooksEntry.COLUMN_SUPPLIER_NAME);
+            if (supplierName == null) {
+                throw new IllegalArgumentException("Supplier name requiered");
+            }
+        }
+        // If the {@link BookEntry#COLUMN_PRODUCT_PHONE_NUMBER} key is present,
+        // check that the supplier phone value is not null.
+        if (values.containsKey(BooksEntry.COLUMN_SUPPLIER_PHONE_NUMBER)) {
+            String supplierNumber = values.getAsString(BooksEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+            if (supplierNumber == null) {
+                throw new IllegalArgumentException("Phone number required");
+            }
+        }
+        // If there are no values to update, then don't try to update the database
+        if (values.size() == 0) {
+            return 0;
+        }
+        // Otherwise, get writeable database to update the data
+        SQLiteDatabase database = booksDbHelper.getWritableDatabase();
+        // Returns the number of database rows affected by the update statement
+        return database.update(BooksEntry.TABLE_NAME, values, selection, selectionArgs);
     }
 }
