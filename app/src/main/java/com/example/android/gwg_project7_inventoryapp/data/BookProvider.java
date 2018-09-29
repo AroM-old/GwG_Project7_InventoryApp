@@ -18,7 +18,7 @@ import static com.example.android.gwg_project7_inventoryapp.data.BooksContract.P
 
 public class BookProvider extends ContentProvider {
 
-    public static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     private static final int BOOKS = 100;
     private static final int BOOKS_ID = 101;
 
@@ -27,9 +27,8 @@ public class BookProvider extends ContentProvider {
         sUriMatcher.addURI(CONTENT_AUTHORITY, PATH_BOOKS + "/#", BOOKS_ID);
     }
 
-    BooksDbHelper booksDbHelper;
-
-    public static final String LOG_TAG = BookProvider.class.getSimpleName();
+    private static final String LOG_TAG = BookProvider.class.getSimpleName();
+    private BooksDbHelper booksDbHelper;
 
     @Override
     public boolean onCreate() {
@@ -96,7 +95,7 @@ public class BookProvider extends ContentProvider {
     }
 
     /**
-     * Insert a pet into the database with the given content values. Return the new content URI
+     * Insert a book into the database with the given content values. Return the new content URI
      * for that specific row in the database.
      */
     private Uri insertBook(Uri uri, ContentValues values) {
@@ -130,7 +129,7 @@ public class BookProvider extends ContentProvider {
         // Get writeable database
         SQLiteDatabase database = booksDbHelper.getWritableDatabase();
 
-        // Insert the new pet with the given values
+        // Insert the new book with the given values
         long id = database.insert(BooksEntry.TABLE_NAME, null, values);
 
         // If the ID is -1, then the insertion failed. Log an error and return null.
@@ -139,7 +138,7 @@ public class BookProvider extends ContentProvider {
             return null;
         }
 
-        // Notify all listeners that the data has changed for the pet content URI
+        // Notify all listeners that the data has changed for the book content URI
         getContext().getContentResolver().notifyChange(uri, null);
 
         // Once we know the ID of the new row in the table,

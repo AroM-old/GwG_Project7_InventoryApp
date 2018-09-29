@@ -37,7 +37,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
     /**
      * Adapter for the ListView
      */
-    BookCursorAdapter bookCursorAdapter;
+    private BookCursorAdapter bookCursorAdapter;
 
     /**
      * Database helper that will provide us access to the database
@@ -173,7 +173,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
-        // Update {@link PetCursorAdapter} with this new cursor containing updated pet data
+        // Update {@link BookCursorAdapter} with this new cursor containing updated book data
         bookCursorAdapter.swapCursor(cursor);
     }
 

@@ -31,7 +31,7 @@ import static com.example.android.gwg_project7_inventoryapp.data.BooksContract.B
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String LOG_TAG = EditorActivity.class.getSimpleName();
-    public static final int EXISTING_BOOK_LOADER = 0;
+    private static final int EXISTING_BOOK_LOADER = 0;
     private Uri currentBookUri;
 
     /**
@@ -126,7 +126,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * Get user input from editor and save new book into database.
      */
-    public void saveBook() {
+    private void saveBook() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String bookNameString = mBookNameEditText.getText().toString().trim();
@@ -164,7 +164,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, R.string.error_saving, Toast.LENGTH_LONG).show();
             } else {
                 // Otherwise, the insertion was successful and we can display a toast with the row ID.
-                Toast.makeText(this, getString(R.string.info_saved) + newUri, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.info_saved), Toast.LENGTH_LONG).show();
             }
         } else {
             // Otherwise this is an EXISTING book, so update the book with content URI: currentBookUri
@@ -410,11 +410,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Show a toast message depending on whether or not the delete was successful.
             if (rowsDeleted == 0) {
                 // If no rows were deleted, then there was an error with the delete.
-                Toast.makeText(this, getString(R.string.editor_delete_pet_failed),
+                Toast.makeText(this, getString(R.string.editor_delete_book_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the delete was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_delete_pet_successful),
+                Toast.makeText(this, getString(R.string.editor_delete_book_successful),
                         Toast.LENGTH_SHORT).show();
             }
         }
