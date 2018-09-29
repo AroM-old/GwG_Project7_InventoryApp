@@ -18,7 +18,6 @@
         </activity>
         <activity
             android:name=".EditorActivity"
-            android:label="Add a Book"
             android:parentActivityName=".InventoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
