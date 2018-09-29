@@ -34,4 +34,7 @@
     <string name="emptyStateMsg_Line1">A fresh start</string>
     <string name="a_new_fresh_start">A new fresh start</string>
     <string name="any_book_to_add">Any book to add?</string>
+    <string name="discarMsg">Discard your changes and quit editing</string>
+    <string name="discardBtn">Discard</string>
+    <string name="keepBtn">Keep Editing</string>
 </resources>
