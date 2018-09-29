@@ -3,10 +3,13 @@ package com.example.android.gwg_project7_inventoryapp;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.android.gwg_project7_inventoryapp.data.BooksContract;
 
 
 /**
@@ -54,14 +57,25 @@ public class BookCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         // Find fields to populate in inflated template
-        TextView bookName = view.findViewById(R.id.book_list_view);
-        TextView supplierName = view.findViewById(R.id.supplier_textview);
-        // Extract properties from cursor
-        String bName = cursor.getString(cursor.getColumnIndexOrThrow("Book Name"));
-        String sName = cursor.getString(cursor.getColumnIndexOrThrow("Supplier Name"));
+        TextView bookNameTextView = view.findViewById(R.id.name_text_view);
+        TextView supplierNameTextView = view.findViewById(R.id.supplier_textview);
+
+        // Find the columns of book attributes that we're interested in
+        int bNameColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_PRODUCT_NAME);
+        int sNameColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_SUPPLIER_NAME);
+
+        String bookName = cursor.getString(bNameColumnIndex);
+        String supplierName = cursor.getString(sNameColumnIndex);
+
+        // If the supplier name is empty string or null, then use some default text
+        // that says "Unknown breed", so the TextView isn't blank.
+        if (TextUtils.isEmpty(supplierName)) {
+            supplierName = context.getString(R.string.unknown_breed);
+        }
+
         // Populate fields with extracted properties
-        bookName.setText(bName);
-        supplierName.setText(sName);
+        bookNameTextView.setText(bookName);
+        supplierNameTextView.setText(supplierName);
 
 
     }

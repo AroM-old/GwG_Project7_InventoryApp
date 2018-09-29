@@ -42,7 +42,7 @@ public class BookProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         SQLiteDatabase database = booksDbHelper.getReadableDatabase();
 
-        Cursor cursor = null;
+        Cursor cursor;
 
         int match = sUriMatcher.match(uri);
         switch (match) {
@@ -53,11 +53,19 @@ public class BookProvider extends ContentProvider {
             case BOOKS_ID:
                 selection = BooksEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                cursor = database.query(BooksEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
                 break;
             default:
                 throw new IllegalArgumentException("Cannont query unknown URI " + uri);
         }
 
+        // Set notification URI on the Cursor,
+        // so we know what content URI the Cursor was created for.
+        // If the data at this URI changes, then we know we need to update the Cursor.
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        // Return the cursor
         return cursor;
     }
 
@@ -128,7 +136,11 @@ public class BookProvider extends ContentProvider {
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
         }
+
+        // Notify all listeners that the data has changed for the pet content URI
+        getContext().getContentResolver().notifyChange(uri, null);
 
         // Once we know the ID of the new row in the table,
         // return the new URI with the ID appended to the end of it
@@ -141,20 +153,33 @@ public class BookProvider extends ContentProvider {
         // Get writeable database
         SQLiteDatabase database = booksDbHelper.getWritableDatabase();
 
+        // Track the number of rows that were deleted
+        int rowsDeleted;
+
         final int match = sUriMatcher.match(uri);
         switch (match) {
             // Delete all rows that match the selection and selection args
             case BOOKS:
-                return database.delete(BooksEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(BooksEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             // Delete a single row given by the ID in the URI
             case BOOKS_ID:
                 selection = BooksEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return database.delete(BooksEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(BooksEntry.TABLE_NAME, selection, selectionArgs);
+                break;
 
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+
+        // If 1 or more rows were deleted, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        // Return the number of rows deleted
+        return rowsDeleted;
     }
 
     @Override
@@ -230,7 +255,16 @@ public class BookProvider extends ContentProvider {
         }
         // Otherwise, get writeable database to update the data
         SQLiteDatabase database = booksDbHelper.getWritableDatabase();
-        // Returns the number of database rows affected by the update statement
-        return database.update(BooksEntry.TABLE_NAME, values, selection, selectionArgs);
+
+
+        // Perform the update on the database and get the number of rows affected
+        int rowsUpdated = database.update(BooksEntry.TABLE_NAME, values, selection, selectionArgs);
+        // If 1 or more rows were updated, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        // Return the number of rows updated
+        return rowsUpdated;
     }
 }

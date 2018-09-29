@@ -1,14 +1,37 @@
 <resources>
     <string name="app_name">Books Inventory</string>
-    <string name="book_heading">Book</string>
+    <string name="book_heading">Book Information</string>
     <string name="book_name_hint">Name</string>
     <string name="book_price_hint">Price</string>
     <string name="book_quantity_hint">Quantity</string>
-    <string name="supplier_heading">Supplier</string>
+    <string name="supplier_heading">Supplier Information</string>
     <string name="supplier_name_hint">Name</string>
     <string name="supplier_phone_number_hint">Phone Number</string>
     <string name="save_action">Save</string>
     <string name="delete_action">delete</string>
     <string name="error_saving">Error saving book information</string>
     <string name="info_saved">Book Information Saved row:</string>
+
+    <!-- Toast message in editor when current pet was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_pet_successful">Pet deleted</string>
+
+    <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_pet_failed">Error with deleting pet</string>
+
+    <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this pet?</string>
+
+    <!-- Dialog button text for the option to confirm deleting the current pet [CHAR LIMIT=20] -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current pet [CHAR LIMIT=20] -->
+    <string name="cancel">Cancel</string>
+
+    <!-- Label for the pet's breed if the breed is unknown [CHAR LIMIT=20] -->
+    <string name="unknown_breed">Unknown supplier</string>
+    <string name="addBook">Add Book</string>
+    <string name="editBook">Edit Book</string>
+    <string name="emptyStateMsg_Line1">A fresh start</string>
+    <string name="a_new_fresh_start">A new fresh start</string>
+    <string name="any_book_to_add">Any book to add?</string>
 </resources>

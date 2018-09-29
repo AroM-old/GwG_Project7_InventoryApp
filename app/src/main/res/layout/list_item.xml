@@ -23,4 +23,5 @@
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="@color/colorPrimary"
         tools:text="Supplier Name" />
+
 </LinearLayout>
