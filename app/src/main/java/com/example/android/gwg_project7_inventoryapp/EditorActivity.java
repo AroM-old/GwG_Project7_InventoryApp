@@ -179,7 +179,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, "Update book failed", Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, "Update book succesful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Update book successfully", Toast.LENGTH_SHORT).show();
             }
         }
 
