@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:focusable="false"
             android:src="@drawable/ic_mood_black_24dp" />
 
         <TextView
@@ -35,10 +36,10 @@
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
             android:text="@string/a_new_fresh_start"
+            android:focusable="false"
             android:textAppearance="?android:textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/empty_subtitle_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/empty_title_text"
@@ -47,6 +48,7 @@
             android:paddingTop="8dp"
             android:text="@string/any_book_to_add"
             android:textAppearance="?android:textAppearanceSmall"
+            android:focusable="false"
             android:textColor="#A2AAB0" />
     </RelativeLayout>
 
@@ -62,7 +64,7 @@
         android:background="@android:color/background_light"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundTint="@android:color/black"
+        app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_add_circle_black_24dp"
         tools:ignore="VectorDrawableCompat" />
 </RelativeLayout>

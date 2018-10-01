@@ -56,7 +56,7 @@ public class BookProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             default:
-                throw new IllegalArgumentException("Cannont query unknown URI " + uri);
+                throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
         // Set notification URI on the Cursor,
@@ -98,12 +98,13 @@ public class BookProvider extends ContentProvider {
      * Insert a book into the database with the given content values. Return the new content URI
      * for that specific row in the database.
      */
+    @Nullable
     private Uri insertBook(Uri uri, ContentValues values) {
 
         //Perform sanity check
         String productName = values.getAsString(BooksEntry.COLUMN_PRODUCT_NAME);
         if (productName == null) {
-            throw new IllegalArgumentException("Book name or title requiered");
+            throw new IllegalArgumentException("Book name or title required");
         }
 
         Integer productPrice = values.getAsInteger(BooksEntry.COLUMN_PRODUCT_PRICE);
@@ -118,7 +119,7 @@ public class BookProvider extends ContentProvider {
 
         String supplierName = values.getAsString(BooksEntry.COLUMN_SUPPLIER_NAME);
         if (supplierName == null) {
-            throw new IllegalArgumentException("Supplier name requiered");
+            throw new IllegalArgumentException("Supplier name required");
         }
 
         String supplierNumber = values.getAsString(BooksEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
@@ -126,7 +127,7 @@ public class BookProvider extends ContentProvider {
             throw new IllegalArgumentException("Phone number required");
         }
 
-        // Get writeable database
+        // Get writable database
         SQLiteDatabase database = booksDbHelper.getWritableDatabase();
 
         // Insert the new book with the given values
@@ -213,7 +214,7 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BooksEntry.COLUMN_PRODUCT_NAME)) {
             String productName = values.getAsString(BooksEntry.COLUMN_PRODUCT_NAME);
             if (productName == null) {
-                throw new IllegalArgumentException("Book name or title requiered");
+                throw new IllegalArgumentException("Book name or title required");
             }
         }
         // If the {@link BookEntry#COLUMN_PRODUCT_PRICE} key is present,
@@ -237,7 +238,7 @@ public class BookProvider extends ContentProvider {
         if (values.containsKey(BooksEntry.COLUMN_SUPPLIER_NAME)) {
             String supplierName = values.getAsString(BooksEntry.COLUMN_SUPPLIER_NAME);
             if (supplierName == null) {
-                throw new IllegalArgumentException("Supplier name requiered");
+                throw new IllegalArgumentException("Supplier name required");
             }
         }
         // If the {@link BookEntry#COLUMN_PRODUCT_PHONE_NUMBER} key is present,
@@ -252,7 +253,7 @@ public class BookProvider extends ContentProvider {
         if (values.size() == 0) {
             return 0;
         }
-        // Otherwise, get writeable database to update the data
+        // Otherwise, get writable database to update the data
         SQLiteDatabase database = booksDbHelper.getWritableDatabase();
 
 

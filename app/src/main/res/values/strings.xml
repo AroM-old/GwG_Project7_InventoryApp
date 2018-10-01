@@ -28,13 +28,14 @@
     <string name="cancel">Cancel</string>
 
     <!-- Label for the book's breed if the breed is unknown [CHAR LIMIT=20] -->
-    <string name="unknown_breed">Unknown supplier</string>
     <string name="addBook">Add Book</string>
     <string name="editBook">Edit Book</string>
-    <string name="emptyStateMsg_Line1">A fresh start</string>
     <string name="a_new_fresh_start">A new fresh start</string>
     <string name="any_book_to_add">Any book to add?</string>
-    <string name="discarMsg">Discard your changes and quit editing</string>
-    <string name="discardBtn">Discard</string>
-    <string name="keepBtn">Keep Editing</string>
+    <string name="book_sold">Book Sold</string>
+    <string name="not_available">Book not available</string>
+    <string name="out_stock">Out of stock</string>
+    <string name="discard_changes_msg">Discard your changes and quit editing</string>
+    <string name="discard_btn">Discard</string>
+    <string name="stay_btn">Keep Editing</string>
 </resources>

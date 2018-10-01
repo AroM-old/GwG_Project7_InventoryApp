@@ -3,13 +3,16 @@ package com.example.android.gwg_project7_inventoryapp;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.android.gwg_project7_inventoryapp.data.BooksContract;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static com.example.android.gwg_project7_inventoryapp.data.BooksContract.BooksEntry;
 
 
 /**
@@ -18,6 +21,18 @@ import com.example.android.gwg_project7_inventoryapp.data.BooksContract;
  * how to create list items for each row of book data in the {@link Cursor}.
  */
 public class BookCursorAdapter extends CursorAdapter {
+
+    @BindView(R.id.name_text_view)
+    TextView bookNameTextView;
+
+    @BindView(R.id.price_textview)
+    TextView bookPriceTextView;
+
+    @BindView(R.id.quantity_textview)
+    TextView bookQuantityTextView;
+
+    @BindView(R.id.sale_btn)
+    Button bookQuantitySaleButton;
 
     /**
      * Constructs a new {@link BookCursorAdapter}.
@@ -55,28 +70,41 @@ public class BookCursorAdapter extends CursorAdapter {
      */
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         // Find fields to populate in inflated template
-        TextView bookNameTextView = view.findViewById(R.id.name_text_view);
-        TextView supplierNameTextView = view.findViewById(R.id.supplier_textview);
+
 
         // Find the columns of book attributes that we're interested in
-        int bNameColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_PRODUCT_NAME);
-        int sNameColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_SUPPLIER_NAME);
+        int idColumnIndex = cursor.getColumnIndex(BooksEntry._ID);
+        int bNameColumnIndex = cursor.getColumnIndex(BooksEntry.COLUMN_PRODUCT_NAME);
+        int bPriceColumnIndex = cursor.getColumnIndex(BooksEntry.COLUMN_PRODUCT_PRICE);
+        int bQuantityColumnIndex = cursor.getColumnIndex(BooksEntry.COLUMN_PRODUCT_QUANTITY);
 
+        final int id = cursor.getInt(idColumnIndex);
         String bookName = cursor.getString(bNameColumnIndex);
-        String supplierName = cursor.getString(sNameColumnIndex);
+        final int bookPrice = cursor.getInt(bPriceColumnIndex);
+        final int bQuantity = cursor.getInt(bQuantityColumnIndex);
 
         // If the supplier name is empty string or null, then use some default text
         // that says "Unknown breed", so the TextView isn't blank.
-        if (TextUtils.isEmpty(supplierName)) {
-            supplierName = context.getString(R.string.unknown_breed);
-        }
+        //if (TextUtils.isEmpty(bookPrice)) {
+        //    bookPrice = context.getString(R.string.unknown_breed);
+        //}
 
         // Populate fields with extracted properties
-        bookNameTextView.setText(bookName);
-        supplierNameTextView.setText(supplierName);
+        ButterKnife.bind(this, view);
 
+        bookNameTextView.setText(bookName);
+        bookPriceTextView.setText("" + bookPrice);
+        bookQuantityTextView.setText("" + bQuantity);
+
+        bookQuantitySaleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InventoryActivity activity = (InventoryActivity) context;
+                activity.bookSale(id, bQuantity);
+            }
+        });
 
     }
 }
