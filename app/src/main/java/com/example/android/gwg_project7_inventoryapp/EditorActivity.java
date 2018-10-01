@@ -243,7 +243,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     // Check for empty data
-    private boolean dataValidation() {
+    private void dataValidation() {
         String bookNameString = mBookNameEditText.getText().toString().trim();
         String bookPriceString = mBookPriceEditText.getText().toString().trim();
         String bookQuantityString = mBookQuantityEditText.getText().toString().trim();
@@ -252,24 +252,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         if (TextUtils.isEmpty(bookNameString)) {
             Toast.makeText(this, "Book name required!", Toast.LENGTH_SHORT).show();
-            return false;
         } else if (TextUtils.isEmpty(bookPriceString)) {
             Toast.makeText(this, "Book price required!", Toast.LENGTH_SHORT).show();
-            return false;
         } else if (TextUtils.isEmpty(bookQuantityString)) {
             Toast.makeText(this, "Book quantity required!", Toast.LENGTH_SHORT).show();
-            return false;
         } else if (TextUtils.isEmpty(supplierNameString)) {
             Toast.makeText(this, "Supplier name required!", Toast.LENGTH_SHORT).show();
-            return false;
         } else if (TextUtils.isEmpty(supplierPhoneString)) {
             Toast.makeText(this, "Supplier phone required!", Toast.LENGTH_SHORT).show();
-            return false;
         } else if (TextUtils.isEmpty(bookNameString)) {
             Toast.makeText(this, "Book name required!", Toast.LENGTH_SHORT).show();
-            return false;
         } else {
-            return false;
         }
     }
 

@@ -31,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/book_name_hint"
+            android:importantForAutofill="no"
             android:inputType="textCapWords" />
 
         <EditText
@@ -38,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/book_price_hint"
+            android:importantForAutofill="no"
             android:inputType="number" />
 
         <LinearLayout
@@ -52,6 +54,7 @@
                 android:layout_gravity="center"
                 android:hint="@string/book_quantity_hint"
                 android:inputType="number"
+                android:importantForAutofill="no"
                 android:paddingRight="12dp" />
 
             <LinearLayout
@@ -106,6 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/supplier_name_hint"
+            android:importantForAutofill="no"
             android:inputType="textCapWords" />
 
         <LinearLayout
@@ -120,6 +124,7 @@
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:hint="@string/supplier_phone_number_hint"
+                android:importantForAutofill="no"
                 android:inputType="phone" />
 
             <Button

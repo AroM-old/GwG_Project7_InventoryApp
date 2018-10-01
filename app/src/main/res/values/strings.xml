@@ -28,10 +28,8 @@
     <string name="cancel">Cancel</string>
 
     <!-- Label for the book's breed if the breed is unknown [CHAR LIMIT=20] -->
-    <string name="unknown_breed">Unknown supplier</string>
     <string name="addBook">Add Book</string>
     <string name="editBook">Edit Book</string>
-    <string name="emptyStateMsg_Line1">A fresh start</string>
     <string name="a_new_fresh_start">A new fresh start</string>
     <string name="any_book_to_add">Any book to add?</string>
     <string name="book_sold">Book Sold</string>
