@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.gwg_project7_inventoryapp.data.BooksDbHelper;
 
@@ -182,5 +183,23 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         // Callback called when the data needs to be deleted
         bookCursorAdapter.swapCursor(null);
 
+    }
+
+    public void bookSale(int id, int quantity) {
+        // Decrease book quantity by one
+        quantity--;
+
+        // New ContentValues object
+        if (quantity >= 0) {
+            ContentValues values = new ContentValues();
+            values.put(BooksEntry.COLUMN_PRODUCT_QUANTITY, quantity);
+            Uri updateUri = ContentUris.withAppendedId(BooksEntry.CONTENT_URI, id);
+            int rowsAffected = getContentResolver().update(updateUri, values, null, null);
+            if (rowsAffected == 1) {
+                Toast.makeText(this, R.string.book_sold, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, R.string.not_available, Toast.LENGTH_SHORT).show();
+        }
     }
 }

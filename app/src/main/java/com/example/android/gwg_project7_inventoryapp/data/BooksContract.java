@@ -7,6 +7,7 @@ import android.provider.BaseColumns;
 /* API contract for the books apps */
 public final class BooksContract {
 
+
     private static final String LOG_TAG = BooksContract.class.getSimpleName();
 
     /**

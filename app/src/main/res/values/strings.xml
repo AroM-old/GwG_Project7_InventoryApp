@@ -34,4 +34,10 @@
     <string name="emptyStateMsg_Line1">A fresh start</string>
     <string name="a_new_fresh_start">A new fresh start</string>
     <string name="any_book_to_add">Any book to add?</string>
+    <string name="book_sold">Book Sold</string>
+    <string name="not_available">Book not available</string>
+    <string name="out_stock">Out of stock</string>
+    <string name="discard_changes_msg">Discard your changes and quit editing</string>
+    <string name="discard_btn">Discard</string>
+    <string name="stay_btn">Keep Editing</string>
 </resources>
