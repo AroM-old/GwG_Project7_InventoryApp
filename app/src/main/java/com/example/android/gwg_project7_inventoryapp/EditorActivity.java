@@ -63,12 +63,24 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      */
     @BindView(R.id.supplier_phone_edit_text)
     EditText mSuppplierPhoneNumberEditText;
+    /**
+     * Button field to place the supplier's phone call
+     */
     @BindView(R.id.place_call_btn)
     Button mPlacePhoneCallButton;
+    /**
+     * Button field to increase the book's quantity
+     */
     @BindView(R.id.increase_btn)
     Button increaseButton;
+    /**
+     * Button field to decrease the book's quantity
+     */
     @BindView(R.id.decrease_btn)
     Button decreaseButton;
+    /**
+     * Book table Uri
+     */
     private Uri currentBookUri;
     /**
      * Boolean flag that keeps track of whether the book has been edited (true) or not (false)
