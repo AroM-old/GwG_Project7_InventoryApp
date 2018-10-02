@@ -38,4 +38,12 @@
     <string name="discard_changes_msg">Discard your changes and quit editing</string>
     <string name="discard_btn">Discard</string>
     <string name="stay_btn">Keep Editing</string>
+    <string name="btn_increase">+</string>
+    <string name="btn_decrease">-</string>
+    <string name="btn_call">Call</string>
+    <string name="text_price">Price: $</string>
+    <string name="text_quantity">Quantity:</string>
+    <string name="btn_sale">SALE</string>
+    <string name="menu_dummy_data">Insert Dummy Data</string>
+    <string name="menu_delete_all">Delete All Books</string>
 </resources>

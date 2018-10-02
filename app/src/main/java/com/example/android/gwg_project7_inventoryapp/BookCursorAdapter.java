@@ -71,8 +71,6 @@ public class BookCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
-        // Find fields to populate in inflated template
-
 
         // Find the columns of book attributes that we're interested in
         int idColumnIndex = cursor.getColumnIndex(BooksEntry._ID);
@@ -84,12 +82,6 @@ public class BookCursorAdapter extends CursorAdapter {
         String bookName = cursor.getString(bNameColumnIndex);
         final int bookPrice = cursor.getInt(bPriceColumnIndex);
         final int bQuantity = cursor.getInt(bQuantityColumnIndex);
-
-        // If the supplier name is empty string or null, then use some default text
-        // that says "Unknown breed", so the TextView isn't blank.
-        //if (TextUtils.isEmpty(bookPrice)) {
-        //    bookPrice = context.getString(R.string.unknown_breed);
-        //}
 
         // Populate fields with extracted properties
         ButterKnife.bind(this, view);

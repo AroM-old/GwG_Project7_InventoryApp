@@ -182,7 +182,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * Get user input from editor and save new book into database.
      */
-    private void saveBook() {
+    private boolean saveBook() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String bookNameString = mBookNameEditText.getText().toString().trim();
@@ -201,7 +201,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 && TextUtils.isEmpty(bookQuantityString)
                 && TextUtils.isEmpty(supplierNameString)
                 && TextUtils.isEmpty(supplierPhoneString)) {
-            return;
+            Toast.makeText(this, "Unable to save empty data", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!dataValidation(bookNameString, bookPriceString, bookQuantityString, supplierNameString, supplierPhoneString)) {
+            return false;
         }
 
         // Create a ContentValues object where column names are the keys,
@@ -251,31 +256,43 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, "Update book successfully", Toast.LENGTH_SHORT).show();
             }
         }
-
+        return true;
     }
 
     // Check for empty data
-    private void dataValidation() {
-        String bookNameString = mBookNameEditText.getText().toString().trim();
-        String bookPriceString = mBookPriceEditText.getText().toString().trim();
-        String bookQuantityString = mBookQuantityEditText.getText().toString().trim();
-        String supplierNameString = mSupplierNameEditText.getText().toString().trim();
-        String supplierPhoneString = mSuppplierPhoneNumberEditText.getText().toString().trim();
+    private boolean dataValidation(String bookName, String bookPrice, String bookQuantity, String supplierName, String supplierPhone) {
+        boolean validData = true;
+        String toastMsg = null;
 
-        if (TextUtils.isEmpty(bookNameString)) {
-            Toast.makeText(this, "Book name required!", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(bookPriceString)) {
-            Toast.makeText(this, "Book price required!", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(bookQuantityString)) {
-            Toast.makeText(this, "Book quantity required!", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(supplierNameString)) {
-            Toast.makeText(this, "Supplier name required!", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(supplierPhoneString)) {
-            Toast.makeText(this, "Supplier phone required!", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(bookNameString)) {
-            Toast.makeText(this, "Book name required!", Toast.LENGTH_SHORT).show();
-        } else {
+        if (bookName == null || bookName.isEmpty()) {
+            toastMsg = "Book name required";
+            validData = false;
+            mBookNameEditText.requestFocus();
         }
+        if (bookPrice == null || bookPrice.isEmpty()) {
+            toastMsg = "Book price required";
+            validData = false;
+            mBookPriceEditText.requestFocus();
+        }
+        if (bookQuantity == null || bookQuantity.isEmpty()) {
+            toastMsg = "Book quantity required";
+            validData = false;
+            mBookQuantityEditText.requestFocus();
+        }
+        if (supplierName == null || supplierName.isEmpty()) {
+            toastMsg = "Supplier name required";
+            validData = false;
+            mSuppplierPhoneNumberEditText.requestFocus();
+        }
+        if (supplierPhone == null || supplierPhone.isEmpty()) {
+            toastMsg = "Supplier phone required";
+            validData = false;
+            mSuppplierPhoneNumberEditText.requestFocus();
+        }
+        if (toastMsg != null && !toastMsg.isEmpty()) {
+            Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+        }
+        return validData;
     }
 
     @Override
@@ -293,9 +310,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Check empty data
-                dataValidation();
+                // dataValidation();
                 // Save book to database
-                saveBook();
+                if (saveBook()) {
+                    startActivity(new Intent(EditorActivity.this, InventoryActivity.class));
+                }
                 // Exit activity
                 finish();
                 return true;
