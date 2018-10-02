@@ -85,12 +85,6 @@ public class BookCursorAdapter extends CursorAdapter {
         final int bookPrice = cursor.getInt(bPriceColumnIndex);
         final int bQuantity = cursor.getInt(bQuantityColumnIndex);
 
-        // If the supplier name is empty string or null, then use some default text
-        // that says "Unknown breed", so the TextView isn't blank.
-        //if (TextUtils.isEmpty(bookPrice)) {
-        //    bookPrice = context.getString(R.string.unknown_breed);
-        //}
-
         // Populate fields with extracted properties
         ButterKnife.bind(this, view);
 

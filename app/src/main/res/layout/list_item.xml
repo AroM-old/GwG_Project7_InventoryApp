@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:text="Price: $"
+            android:text="@string/text_price"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@android:color/white" />
 
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:text="Quantity: "
+            android:text="@string/text_quantity"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@android:color/white" />
 
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:fontFamily="sans-serif"
-            android:text="SALE"
+            android:text="@string/btn_sale"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@android:color/background_light" />
     </LinearLayout>
