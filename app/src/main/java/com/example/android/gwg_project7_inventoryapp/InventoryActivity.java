@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,11 +105,11 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         // Create a ContentValues object where column names are the keys,
         // and Lord of ring book attributes are the values.
         ContentValues values = new ContentValues();
-        values.put(BooksEntry.COLUMN_PRODUCT_NAME, "The Lord of The Ring");
-        values.put(BooksEntry.COLUMN_PRODUCT_PRICE, "58");
-        values.put(BooksEntry.COLUMN_PRODUCT_QUANTITY, "1");
-        values.put(BooksEntry.COLUMN_SUPPLIER_NAME, "Wizard Editorial");
-        values.put(BooksEntry.COLUMN_SUPPLIER_PHONE_NUMBER, "254-200-5555");
+        values.put(BooksEntry.COLUMN_PRODUCT_NAME, getString(R.string.val_dummy_name));
+        values.put(BooksEntry.COLUMN_PRODUCT_PRICE, getString(R.string.val_dummy_price));
+        values.put(BooksEntry.COLUMN_PRODUCT_QUANTITY, getString(R.string.val_dummy_quantity));
+        values.put(BooksEntry.COLUMN_SUPPLIER_NAME, getString(R.string.val_dummy_supplier_name));
+        values.put(BooksEntry.COLUMN_SUPPLIER_PHONE_NUMBER, getString(R.string.val_dummy_supplier_phone));
 
         // Insert a new row for Lord of Ring into the provider using the ContentResolver.
         // Use the {@link BookEntry#CONTENT_URI} to indicate that we want to insert
@@ -148,7 +147,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
      */
     private void deleteAllBooks() {
         int rowsDeleted = getContentResolver().delete(BooksEntry.CONTENT_URI, null, null);
-        Log.v("InventoryActivity", rowsDeleted + " rows deleted from book database");
+        Toast.makeText(this, rowsDeleted + getString(R.string.toast_delete_all), Toast.LENGTH_LONG).show();
     }
 
     @NonNull

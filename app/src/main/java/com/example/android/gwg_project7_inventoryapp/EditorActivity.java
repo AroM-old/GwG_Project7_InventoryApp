@@ -148,7 +148,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(EditorActivity.this, new String[]{Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL_PHONE);
                 } else {
-                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + supplyPhoneNumber)));
+                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(getString(R.string.text_tel) + supplyPhoneNumber)));
 
                 }
             }
@@ -182,14 +182,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * Get user input from editor and save new book into database.
      */
-    private boolean saveBook() {
+    private void saveBook() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String bookNameString = mBookNameEditText.getText().toString().trim();
         String bookPriceString = mBookPriceEditText.getText().toString().trim();
-        //int bookPriceInt = Integer.parseInt(bookPriceString);
         String bookQuantityString = mBookQuantityEditText.getText().toString().trim();
-        //int bookQuantityInt = Integer.parseInt(bookQuantityString);
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSuppplierPhoneNumberEditText.getText().toString().trim();
 
@@ -201,12 +199,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 && TextUtils.isEmpty(bookQuantityString)
                 && TextUtils.isEmpty(supplierNameString)
                 && TextUtils.isEmpty(supplierPhoneString)) {
-            Toast.makeText(this, "Unable to save empty data", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (!dataValidation(bookNameString, bookPriceString, bookQuantityString, supplierNameString, supplierPhoneString)) {
-            return false;
+            return;
         }
 
         // Create a ContentValues object where column names are the keys,
@@ -250,49 +243,41 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Show a toast message depending on whether or not the update was successful.
             if (rowsAffected == 0) {
                 // If no rows were affected, then there was an error with the update.
-                Toast.makeText(this, "Update book failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toast_update_failed, Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, "Update book successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toast_update_success, Toast.LENGTH_SHORT).show();
             }
         }
-        return true;
+
     }
 
     // Check for empty data
-    private boolean dataValidation(String bookName, String bookPrice, String bookQuantity, String supplierName, String supplierPhone) {
-        boolean validData = true;
-        String toastMsg = null;
+    private boolean dataValidation() {
+        String bookNameString = mBookNameEditText.getText().toString().trim();
+        String bookPriceString = mBookPriceEditText.getText().toString().trim();
+        String bookQuantityString = mBookQuantityEditText.getText().toString().trim();
+        String supplierNameString = mSupplierNameEditText.getText().toString().trim();
+        String supplierPhoneString = mSuppplierPhoneNumberEditText.getText().toString().trim();
 
-        if (bookName == null || bookName.isEmpty()) {
-            toastMsg = "Book name required";
-            validData = false;
-            mBookNameEditText.requestFocus();
+        if (TextUtils.isEmpty(bookNameString)) {
+            Toast.makeText(this, R.string.toast_book_name_req, Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (TextUtils.isEmpty(bookPriceString)) {
+            Toast.makeText(this, R.string.toast_book_price_req, Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (TextUtils.isEmpty(bookQuantityString)) {
+            Toast.makeText(this, R.string.toast_book_quantity_req, Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (TextUtils.isEmpty(supplierNameString)) {
+            Toast.makeText(this, R.string.toast_supplier_name_req, Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (TextUtils.isEmpty(supplierPhoneString)) {
+            Toast.makeText(this, R.string.toast_supplier_phone_req, Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
         }
-        if (bookPrice == null || bookPrice.isEmpty()) {
-            toastMsg = "Book price required";
-            validData = false;
-            mBookPriceEditText.requestFocus();
-        }
-        if (bookQuantity == null || bookQuantity.isEmpty()) {
-            toastMsg = "Book quantity required";
-            validData = false;
-            mBookQuantityEditText.requestFocus();
-        }
-        if (supplierName == null || supplierName.isEmpty()) {
-            toastMsg = "Supplier name required";
-            validData = false;
-            mSuppplierPhoneNumberEditText.requestFocus();
-        }
-        if (supplierPhone == null || supplierPhone.isEmpty()) {
-            toastMsg = "Supplier phone required";
-            validData = false;
-            mSuppplierPhoneNumberEditText.requestFocus();
-        }
-        if (toastMsg != null && !toastMsg.isEmpty()) {
-            Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-        }
-        return validData;
     }
 
     @Override
@@ -310,13 +295,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Check empty data
-                // dataValidation();
-                // Save book to database
-                if (saveBook()) {
-                    startActivity(new Intent(EditorActivity.this, InventoryActivity.class));
+                if (dataValidation()) {
+                    // Save book to database
+                    saveBook();
+                    // Exit activity
+                    finish();
                 }
-                // Exit activity
-                finish();
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case R.id.action_delete:
@@ -423,7 +407,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      */
     private void showUnsavedChangedDialog(DialogInterface.OnClickListener discardButtonClikListener) {
         // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postivie and negative buttons on the dialog.
+        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.discard_changes_msg);
         builder.setPositiveButton(R.string.discard_btn, discardButtonClikListener);
@@ -486,7 +470,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postivie and negative buttons on the dialog.
+        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {

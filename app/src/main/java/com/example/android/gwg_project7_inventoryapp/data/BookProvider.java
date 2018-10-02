@@ -150,7 +150,7 @@ public class BookProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        // Get writeable database
+        // Get writable database
         SQLiteDatabase database = booksDbHelper.getWritableDatabase();
 
         // Track the number of rows that were deleted
